@@ -1,76 +1,214 @@
 # Antoni RAG Project
 
-An educational RAG (Retrieval-Augmented Generation) system designed to process technical documentation (e.g., AMV manuals) and provide an LLM-powered interface for interactive learning. 
+An educational RAG (Retrieval-Augmented Generation) system for processing technical documentation, such as AMV railway manuals, and preparing it for semantic search and LLM-based question answering.
 
-This project is built using Python and is structured as a modular data processing pipeline.
+The project is written in Python and organized as a modular data-processing pipeline.
 
-## 🏗 Architecture (The Data Pipeline)
+## Architecture
 
-The project follows a strict separation of concerns, processing raw PDF data through a 7-step pipeline to eventually feed a Large Language Model (LLM).
+The project processes PDF documents through the following stages:
 
-1. **Extraction** (Implemented) - Converts raw PDFs into raw Markdown and extracts images using `docling` and OCR.
-2. **Cleaning** (Planned) - Removes OCR artifacts and irrelevant characters.
-3. **Normalization** (Planned) - Standardizes the text format.
-4. **Chunking** (Planned) - Splits the text into semantically meaningful overlapping chunks.
-5. **Embeddings** (Planned) - Converts text chunks into vector representations.
-6. **Vector DB** (Planned) - Stores vectors for semantic search (e.g., ChromaDB).
-7. **RAG & LLM** (Planned) - Retrieves relevant context and generates answers.
+1. **Extraction** — converts PDF pages into Markdown using Docling and OCR.
+2. **OCR Analysis** — analyzes extracted text, character frequency, word frequency, and suspicious OCR tokens.
+3. **Cleaning** — removes OCR artifacts and irrelevant content.
+4. **Validation** — compares raw and cleaned documents and checks that important information has not been lost.
+5. **Chunking** — splits documents into smaller overlapping text chunks.
+6. **Embeddings** — converts text chunks into vector representations.
+7. **Vector Database** — stores embeddings for semantic search.
+8. **RAG and LLM** — retrieves relevant context and generates answers.
 
-## 📂 Project Structure
+## Current Status
+
+### Implemented
+
+- PDF extraction in small page batches
+- Markdown generation
+- OCR text analysis
+- Character-frequency statistics
+- Word-frequency statistics
+- Detection of suspicious OCR tokens such as:
+  - `circula;on`
+  - `protec;on`
+  - `ar8cle`
+  - `installa8ons`
+- Markdown analysis report generation
+
+### In Progress
+
+- OCR cleaning rules
+- Cleaning validation
+
+### Planned
+
+- Text chunking
+- Embedding generation
+- Vector database integration
+- Semantic search
+- LLM-powered question answering
+
+## Project Structure
 
 ```text
 antoni_rag_project/
 │
-├── data/                       # Data directory (ignored in Git)
-│   ├── 01_raw/                 # Source PDF files (e.g., AMV COMPLET.pdf)
-│   ├── 02_extracted/           # Phase 1 output (.md files and /images)
-│   ├── 03_cleaned/             # Phase 2 output
-│   └── 04_chunks/              # Phase 4 output
+├── data/
+│   ├── raw/                     # Source PDF files
+│   ├── extracted/               # Raw Markdown files produced by OCR
+│   ├── cleaned/                 # Cleaned Markdown files
+│   ├── chunks/                  # Text chunks
+│   └── reports/                 # OCR analysis and validation reports
 │
-├── src/                        # Source code for the pipeline
-│   ├── __init__.py             
-│   ├── extract.py              # Phase 1: Batch extraction logic using Docling
-│   └── ...                     # Future modules (clean.py, chunk.py, etc.)
+├── src/
+│   ├── __init__.py
+│   │
+│   ├── extraction/
+│   │   ├── __init__.py
+│   │   └── extract_pdf.py       # PDF extraction with Docling
+│   │
+│   ├── analysis/
+│   │   ├── __init__.py
+│   │   └── analyze_ocr.py       # OCR statistics and error detection
+│   │
+│   ├── cleaning/
+│   │   ├── __init__.py
+│   │   └── rules.py             # OCR cleaning rules
+│   │
+│   ├── validation/
+│   │   └── __init__.py
+│   │
+│   ├── chunking/
+│   │   └── __init__.py
+│   │
+│   ├── embedding/
+│   │   └── __init__.py
+│   │
+│   ├── vectordb/
+│   │   └── __init__.py
+│   │
+│   └── rag/
+│       └── __init__.py
 │
-├── vector_store/               # Vector database storage
-├── main.py                     # Entry point to run the pipeline
-├── requirements.txt            # Python dependencies
-├── .env                        # Environment variables (API keys)
-└── .gitignore
+├── main_extract.py              # Runs PDF extraction
+├── main_analyze.py              # Runs OCR analysis
+├── requirements.txt             # Python dependencies
+├── .gitignore
+└── README.md
+```
 
-🚀 Current State: Phase 1 (Extraction)
-The current implementation focuses entirely on Phase 1: Extraction.
+The `data/` directory contains source documents and generated files and should not be committed to Git.
 
-Tool: Uses IBM's docling library with EasyOCR.
+## Extraction Strategy
 
-Strategy: Processes PDFs in smaller batches (e.g., 5 pages at a time) to optimize RAM usage and allow the pipeline to resume safely in case of a crash.
+Large PDF documents are processed in small batches, for example five pages at a time.
 
-Output: Generates raw .md files containing text and automatically formatted markdown tables, alongside a subfolder of extracted .png images.
+This approach:
 
-⚙️ Installation & Setup
+- reduces memory usage;
+- makes processing more stable;
+- allows extraction to resume after an interruption;
+- produces smaller Markdown files that are easier to analyze and clean.
+
+Example output files:
+
+```text
+amv_001_005.md
+amv_006_010.md
+amv_011_015.md
+```
+
+## Installation
+
 Clone the repository:
 
-Bash
+```bash
 git clone <repository_url>
 cd antoni_rag_project
-Create and activate a virtual environment:
+```
 
-Bash
+Create a virtual environment:
+
+```bash
 python -m venv .venv
-# On Windows:
-.venv\Scripts\activate
-# On macOS/Linux:
+```
+
+Activate it on Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Activate it on macOS or Linux:
+
+```bash
 source .venv/bin/activate
+```
+
 Install dependencies:
-Make sure you are using the latest version of docling to ensure pipeline compatibility.
 
-Bash
+```bash
 pip install --no-cache-dir -r requirements.txt
-Prepare the data:
-Place your source PDF file (e.g., AMV COMPLET.pdf) into the data/01_raw/ directory.
+```
 
-▶️ Usage
-To execute the data pipeline, run the main script from the root directory:
+## Data Preparation
 
-Bash
-python main.py
+Place the source PDF in:
+
+```text
+data/raw/
+```
+
+Example:
+
+```text
+data/raw/AMV COMPLET.pdf
+```
+
+## Usage
+
+### Run PDF extraction
+
+```bash
+python main_extract.py
+```
+
+The generated Markdown files are saved in:
+
+```text
+data/extracted/
+```
+
+### Run OCR analysis
+
+```bash
+python main_analyze.py
+```
+
+The analysis report is saved in:
+
+```text
+data/reports/ocr_analysis_report.md
+```
+
+## OCR Analysis
+
+The analysis stage currently collects:
+
+- the number of extracted files;
+- the total number of characters;
+- the number of characters in each file;
+- character-frequency statistics;
+- word-frequency statistics;
+- frequently occurring suspicious OCR tokens.
+
+The report is used to identify systematic OCR errors before cleaning rules are applied.
+
+## Technology Stack
+
+- Python
+- Docling
+- OCR
+- Regular expressions
+- `pathlib`
+- `collections.Counter`
+
+Additional technologies will be introduced during the next project phases.

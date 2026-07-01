@@ -1,5 +1,6 @@
-data/
-vector_store/
-.env
-venv/
+.idea/
+.venv/
 __pycache__/
+*.pyc
+.env
+data/
