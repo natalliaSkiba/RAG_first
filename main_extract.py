@@ -1,10 +1,10 @@
 import sys
 from pathlib import Path  # <-- Этот импорт решает ошибку со скриншота
-from src.extract import extract_pdf_in_batches
+from src.extraction.extract_pdf import extract_pdf_in_batches
 
 if __name__ == "__main__":
-    pdf_document = "data/01_raw/AMV COMPLET.pdf"
-    output_directory = "data/02_extracted"
+    pdf_document = "data/raw/AMV COMPLET.pdf"
+    output_directory = "data/extracted"
 
     # SOURCE FILE EXISTENCE CHECK
     if not Path(pdf_document).is_file():
