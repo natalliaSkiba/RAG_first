@@ -1,5 +1,7 @@
 import re
 from src.cleaning.replacements import OCR_REPLACEMENTS
+from html import unescape
+
 
 def replace_tabs(text: str) -> str:
     """Replaces tab characters with spaces."""
@@ -18,7 +20,6 @@ def normalize_spaces(text: str) -> str:
 
 def remove_trailing_spaces(text: str) -> str:
     """Removes spaces at the end of each line."""
-
     lines = text.splitlines()
 
     cleaned_lines = [
@@ -31,7 +32,6 @@ def remove_trailing_spaces(text: str) -> str:
 
 def correct_known_ocr_errors(text: str) -> str:
     """Corrects known OCR errors while preserving capitalization."""
-
     incorrect_words = [
         word for word in OCR_REPLACEMENTS
         if word
@@ -44,6 +44,7 @@ def correct_known_ocr_errors(text: str) -> str:
         "|".join(re.escape(word) for word in incorrect_words),
         re.IGNORECASE,
     )
+
 
     def replace_match(match: re.Match) -> str:
         original_word = match.group(0)
@@ -63,13 +64,17 @@ def correct_known_ocr_errors(text: str) -> str:
     return pattern.sub(replace_match, text)
 
 
+def decode_html_entities(text: str) -> str:
+    """Converts HTML entities to normal characters."""
+    return unescape(text)
+
+
 def clean_text(text: str) -> str:
     """Applies all cleaning rules to the text."""
-
     text = replace_tabs(text)
     text = remove_image_markers(text)
+    text = decode_html_entities(text)
     text = normalize_spaces(text)
     text = remove_trailing_spaces(text)
     text = correct_known_ocr_errors(text)
-
     return text
