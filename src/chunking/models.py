@@ -27,6 +27,7 @@ class MarkdownBlock:
     start_char: int | None = None
     end_char: int | None = None
     heading_level: int | None = None
+    image_path: str | None = None
 
 
 @dataclass
@@ -36,6 +37,18 @@ class Section:
     section_id: str
     heading_path: list[str]
     blocks: list[MarkdownBlock] = field(default_factory=list)
+    start_char: int | None = None
+    end_char: int | None = None
+
+
+@dataclass
+class TextPart:
+    """ Represents one part of a section with its metadata."""
+
+    text: str
+    part_number: int
+    images: list[str] = field(default_factory=list)
+    chunk_type: str = "text"
     start_char: int | None = None
     end_char: int | None = None
 

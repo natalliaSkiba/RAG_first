@@ -6,6 +6,11 @@ from src.chunking.models import MarkdownBlock
 # Matches Markdown headings from level 1 to level 6.
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 
+# Matches an image marker containing a saved image path.
+IMAGE_PATTERN = re.compile(
+    r"^<!--\s*image:\s*(.+?)\s*-->$"
+)
+
 # Matches one separator cell of a Markdown table.
 TABLE_SEPARATOR_CELL_PATTERN = re.compile(r"^:?-{3,}:?$")
 
@@ -22,6 +27,26 @@ def parse_heading(line: str) -> tuple[int, str] | None:
     heading_text = match.group(2).strip()
 
     return heading_level, heading_text
+
+
+def parse_image(line: str) -> str | None:
+    """
+    Extracts the saved image path from an image marker.
+
+    Извлекает путь к сохранённому изображению из маркера.
+    """
+
+    match = IMAGE_PATTERN.fullmatch(line.strip())
+
+    if match is None:
+        return None
+
+    image_path = match.group(1).strip()
+
+    if not image_path:
+        return None
+
+    return image_path
 
 
 def is_table_separator(line: str) -> bool:
@@ -60,8 +85,7 @@ def is_table_row(line: str) -> bool:
 
 
 def is_table_start(current_line: str, next_line: str) -> bool:
-    """
-    Checks whether two lines start a Markdown table."""
+    """Checks whether two lines start a Markdown table."""
 
     return (
         is_table_row(current_line)
@@ -238,6 +262,35 @@ def parse_markdown(markdown_text: str) -> list[MarkdownBlock]:
         if pending_headings:
             active_headings = pending_headings.copy()
             pending_headings = []
+        image_path = parse_image(line)
+
+        if image_path is not None:
+            # Save ordinary text collected before the image.
+            text_block = _create_text_block(
+                text_buffer,
+                _get_heading_path(active_headings),
+            )
+
+            if text_block is not None:
+                blocks.append(text_block)
+
+            text_buffer = []
+
+            blocks.append(
+                MarkdownBlock(
+                    block_type="image",
+                    text="",
+                    heading_path=_get_heading_path(
+                        active_headings
+                    ),
+                    start_char=start_char,
+                    end_char=end_char,
+                    image_path=image_path,
+                )
+            )
+
+            index += 1
+            continue
 
         next_line = ""
 
