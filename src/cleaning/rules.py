@@ -13,6 +13,34 @@ def remove_image_markers(text: str) -> str:
     return text.replace("<!-- image -->", "")
 
 
+def attach_image_paths(
+    text: str,
+    source_stem: str,
+) -> str:
+    """ Replaces image markers with paths to extracted image files."""
+
+    image_number = 0
+
+    def replace_marker(match: re.Match) -> str:
+        """ Creates a path for the next image marker."""
+        nonlocal image_number
+
+        image_number += 1
+
+        image_path = (
+            f"data/images/"
+            f"img_{source_stem}_{image_number}.png"
+        )
+
+        return f"<!-- image: {image_path} -->"
+
+    return re.sub(
+        r"<!--\s*image\s*-->",
+        replace_marker,
+        text,
+    )
+
+
 def normalize_spaces(text: str) -> str:
     """Normalizes repeated spaces."""
     return re.sub(r"\n{3,}", "\n\n", text)
@@ -69,12 +97,21 @@ def decode_html_entities(text: str) -> str:
     return unescape(text)
 
 
-def clean_text(text: str) -> str:
+def clean_text(
+    text: str,
+    source_stem: str,
+) -> str:
     """Applies all cleaning rules to the text."""
     text = replace_tabs(text)
-    text = remove_image_markers(text)
+
+    text = attach_image_paths(
+        text=text,
+        source_stem=source_stem,
+    )
+
     text = decode_html_entities(text)
     text = normalize_spaces(text)
     text = remove_trailing_spaces(text)
     text = correct_known_ocr_errors(text)
+
     return text
