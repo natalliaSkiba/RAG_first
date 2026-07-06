@@ -10,6 +10,7 @@ data/cleaned/*
 data/chunks/*
 data/reports/*
 data/images/*
+data/embeddings/*
 
 !data/raw/.gitkeep
 !data/extracted/.gitkeep
@@ -17,6 +18,7 @@ data/images/*
 !data/chunks/.gitkeep
 !data/reports/.gitkeep
 !data/images/.gitkeep
+!data/embeddings/.gitkeep
 
 !data/sample/
 !data/sample/**
