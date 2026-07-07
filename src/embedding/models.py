@@ -72,3 +72,25 @@ def create_empty_embedding_record(
             "normalize_embeddings": config.normalize_embeddings,
         },
     )
+
+
+def create_embedding_record(
+    chunk: ChunkRecord,
+    embedding: list[float],
+    config: EmbeddingModelConfig,
+) -> EmbeddingRecord:
+    """Creates an embedding record with a generated vector."""
+
+    return EmbeddingRecord(
+        chunk_id=chunk.chunk_id,
+        text=chunk.text,
+        metadata=chunk.metadata.copy(),
+        embedding=embedding,
+        embedding_metadata={
+            "provider": config.provider,
+            "model_name": config.model_name,
+            "dimension": config.dimension,
+            "text_prefix": config.passage_prefix,
+            "normalize_embeddings": config.normalize_embeddings,
+        },
+    )

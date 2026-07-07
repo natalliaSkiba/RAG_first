@@ -13,14 +13,15 @@ errors = validate_embedding_folder(
     input_folder=input_folder,
     expected_total_records=expected_total_records,
     expected_dimension=config.dimension,
-    allow_empty_embeddings=True,
+    allow_empty_embeddings=False,
 )
 
 print("Embedding validation")
 print(f"Input folder: {input_folder}")
 print(f"Expected records: {expected_total_records}")
 print(f"Expected dimension: {config.dimension}")
-print(f"Allow empty embeddings: True")
+#print(f"Allow empty embeddings: True")
+print(f"Allow empty embeddings: False")
 print()
 
 if errors:
