@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +22,7 @@ REQUIRED_EMBEDDING_METADATA_FIELDS = {
 
 
 def read_jsonl(file_path: Path) -> list[dict[str, Any]]:
-    """Reads a JSONL file and returns a list of dictionaries."""
+    """Reads a _JSONL_ file and returns a list of dictionaries."""
 
     records: list[dict[str, Any]] = []
 
@@ -127,13 +128,37 @@ def validate_embedding_record(
             f"expected {expected_dimension}"
         )
 
+    all_values_are_float = True
+
     for index, value in enumerate(embedding):
         if not isinstance(value, float):
             errors.append(
                 f"{file_path.name}:{line_number} "
                 f"embedding[{index}] is not float"
             )
+            all_values_are_float = False
             break
+
+    if not all_values_are_float:
+        return errors
+
+    if embedding and all(value == 0.0 for value in embedding):
+        errors.append(
+            f"{file_path.name}:{line_number} "
+            "embedding contains only zeros"
+        )
+
+    if embedding:
+        vector_norm = math.sqrt(
+            sum(value * value for value in embedding)
+        )
+
+        if not 0.99 <= vector_norm <= 1.01:
+            errors.append(
+                f"{file_path.name}:{line_number} "
+                f"embedding norm is {vector_norm:.6f}, "
+                "expected approximately 1.0"
+            )
 
     return errors
 
