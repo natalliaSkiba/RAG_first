@@ -23,12 +23,25 @@ class ChunkRecord:
         )
 
     def get_embedding_text(
-        self,
-        config: EmbeddingModelConfig,
+            self,
+            config: EmbeddingModelConfig,
     ) -> str:
-        """Returns text prepared for passage embedding."""
+        """ Returns text prepared for passage embedding.Important:
+        We include heading before chunk text because railway manuals often store the main topic in the heading."""
 
-        return f"{config.passage_prefix}{self.text}"
+        heading = str(
+            self.metadata.get(
+                "heading",
+                "",
+            )
+        ).strip()
+
+        if heading:
+            embedding_text = f"{heading}\n{self.text}"
+        else:
+            embedding_text = self.text
+
+        return f"{config.passage_prefix}{embedding_text}"
 
 
 @dataclass
@@ -70,6 +83,7 @@ def create_empty_embedding_record(
             "dimension": config.dimension,
             "text_prefix": config.passage_prefix,
             "normalize_embeddings": config.normalize_embeddings,
+            "embedding_text_strategy": "heading_plus_text",
         },
     )
 
@@ -92,5 +106,6 @@ def create_embedding_record(
             "dimension": config.dimension,
             "text_prefix": config.passage_prefix,
             "normalize_embeddings": config.normalize_embeddings,
+            "embedding_text_strategy": "heading_plus_text",
         },
     )
