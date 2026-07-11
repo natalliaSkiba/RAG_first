@@ -42,46 +42,94 @@
     ],
     "topic": "réalimentation en secours",
     "notes": "Chunks about secours / alimentation de secours."
+  },
+  {
+    "question": "Quels sont les moyens de communication utilisables ?",
+    "expected_chunk_ids": [
+      "amv_001_005_chunk_0005"
+    ],
+    "topic": "communication",
+    "notes": "Chunk about available communication means: voice, express agent, loudspeaker, telephony, mobile phone, radio."
+  },
+  {
+    "question": "Quelles sont les quatre étapes d'une bonne communication ?",
+    "expected_chunk_ids": [
+      "amv_001_005_chunk_0006"
+    ],
+    "topic": "communication",
+    "notes": "Chunk with the four communication steps: identification, instruction call, information transmission, finalization."
+  },
+  {
+    "question": "Quels sont les codes radio utilisés en communication ?",
+    "expected_chunk_ids": [
+      "amv_001_005_chunk_0007"
+    ],
+    "topic": "communication radio",
+    "notes": "Chunk about radio codes and formalized communication."
+  },
+  {
+    "question": "À quoi sert le carnet d'enregistrement des dépêches ?",
+    "expected_chunk_ids": [
+      "amv_001_005_chunk_0008"
+    ],
+    "topic": "CED / dépêches",
+    "notes": "Chunk defining the CED as a manual register for daily events, dispatches, disturbances, communications and handovers."
+  },
+  {
+    "question": "Qu'est-ce que la reconnaissance à l'aptitude au transport ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0002"
+    ],
+    "topic": "RAT",
+    "notes": "Chunk defining RAT as a safety operation for freight vehicles and loads before movement."
+  },
+  {
+    "question": "À quoi sert le bulletin de freinage ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0003"
+    ],
+    "topic": "bulletin de freinage",
+    "notes": "Chunk defining the safety form given to the driver after train formation operations are completed."
+  },
+  {
+    "question": "À quoi sert la signalisation d'avant d'un train ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0004"
+    ],
+    "topic": "signalisation des trains",
+    "notes": "Chunk about front train signaling: identifying the train end and direction of movement."
+  },
+  {
+    "question": "À quoi sert la signalisation d'arrière d'un train ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0005"
+    ],
+    "topic": "signalisation des trains",
+    "notes": "Chunk about rear train signaling: identifying the train end, direction, and confirming the train is complete."
+  },
+  {
+    "question": "Quel est le rôle du chef de la manœuvre ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0025",
+      "amv_006_010_chunk_0008"
+    ],
+    "topic": "manœuvre",
+    "notes": "Chunks explaining the role and definition of the chef de la manœuvre."
+  },
+  {
+    "question": "Que signifie l'ordre de manœuvre tirez ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0009"
+    ],
+    "topic": "ordres de manœuvre",
+    "notes": "Chunk explaining the maneuver order 'tirez'."
+  },
+  {
+    "question": "Que signifie l'ordre de manœuvre refoulez ?",
+    "expected_chunk_ids": [
+      "amv_006_010_chunk_0010"
+    ],
+    "topic": "ordres de manœuvre",
+    "notes": "Chunk explaining the maneuver order 'refoulez'."
   }
-  ,
-{
-  "question": "Quels sont les moyens de communication utilisables ?",
-  "expected_chunk_ids": [
-    "amv_001_005_chunk_0005"
-  ],
-  "topic": "communication",
-  "notes": "Chunk about available communication means: voice, express agent, loudspeaker, telephony, mobile phone, radio."
-},
-{
-  "question": "Quelles sont les quatre étapes d'une bonne communication ?",
-  "expected_chunk_ids": [
-    "amv_001_005_chunk_0006"
-  ],
-  "topic": "communication",
-  "notes": "Chunk with the four communication steps: identification, instruction call, information transmission, finalization."
-},
-{
-  "question": "Quels sont les codes radio utilisés en communication ?",
-  "expected_chunk_ids": [
-    "amv_001_005_chunk_0007"
-  ],
-  "topic": "communication radio",
-  "notes": "Chunk about radio codes and formalized communication."
-},
-{
-  "question": "À quoi sert le carnet d'enregistrement des dépêches ?",
-  "expected_chunk_ids": [
-    "amv_001_005_chunk_0008"
-  ],
-  "topic": "CED / dépêches",
-  "notes": "Chunk defining the CED as a manual register for daily events, dispatches, disturbances, communications and handovers."
-},
-{
-  "question": "Qu'est-ce que la reconnaissance à l'aptitude au transport ?",
-  "expected_chunk_ids": [
-    "amv_006_010_chunk_0002"
-  ],
-  "topic": "RAT",
-  "notes": "Chunk defining RAT as a safety operation for freight vehicles and loads before movement."
-}
 ]

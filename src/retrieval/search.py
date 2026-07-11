@@ -7,7 +7,6 @@ from src.retrieval.models import (
     SearchResult,
 )
 
-
 FRENCH_STOPWORDS = {
     "que",
     "quoi",
@@ -34,7 +33,6 @@ FRENCH_STOPWORDS = {
     "avec",
 }
 
-
 DOMAIN_QUERY_EXPANSIONS = {
     "detresse": [
         "detresse",
@@ -55,11 +53,54 @@ DOMAIN_QUERY_EXPANSIONS = {
     ],
 }
 
+DOMAIN_GENERIC_KEYWORD_TERMS = {
+    "ordre",
+    "ordres",
+    "manoeuvre",
+    "manoeuvres",
+    "signifie",
+    "man",
+    "uvre",
+}
+
+
+def get_keyword_terms_for_scoring(
+        question: str,
+) -> list[str]:
+    """ Returns useful keyword terms for hybrid scoring. Some domain words are too generic and can hurt ranking. """
+
+    query_terms = extract_query_terms(
+        question=question,
+    )
+
+    expanded_terms = expand_query_terms(
+        terms=query_terms,
+    )
+
+    filtered_terms = [
+        term
+        for term in expanded_terms
+        if term not in DOMAIN_GENERIC_KEYWORD_TERMS
+    ]
+
+    if filtered_terms:
+        return filtered_terms
+
+    return expanded_terms
+
 
 def normalize_text(text: str) -> str:
-    """Normalizes text for keyword matching.
+    """ Normalizes text for keyword matching.
+
     Example:
-    "DÉTRESSE" -> "detresse" """
+    "DÉTRESSE" -> "detresse"
+    "manœuvre" -> "manoeuvre"
+    """
+
+    text = text.replace("œ", "oe")
+    text = text.replace("Œ", "OE")
+    text = text.replace("æ", "ae")
+    text = text.replace("Æ", "AE")
 
     decomposed_text = unicodedata.normalize(
         "NFKD",
@@ -115,8 +156,8 @@ def expand_query_terms(terms: list[str]) -> list[str]:
 
 
 def dot_product(
-    left_vector: list[float],
-    right_vector: list[float],
+        left_vector: list[float],
+        right_vector: list[float],
 ) -> float:
     """  Calculates dot product similarity between two vectors.
     Important:
@@ -135,54 +176,41 @@ def dot_product(
 
 
 def calculate_keyword_score(
-    question: str,
-    record: RetrievalRecord,
+        question: str,
+        record: RetrievalRecord,
 ) -> float:
-    """ Calculates a small keyword boost for technical terms."""
+    """Calculates simple keyword score for one record."""
 
-    query_terms = extract_query_terms(
+    query_terms = get_keyword_terms_for_scoring(
         question=question,
     )
 
-    expanded_terms = expand_query_terms(
-        terms=query_terms,
-    )
-
-    if not expanded_terms:
-        return 0.0
-
     heading = normalize_text(
-        str(
-            record.metadata.get(
-                "heading",
-                "",
-            )
-        )
+        str(record.metadata.get("heading", ""))
     )
 
-    text = normalize_text(record.text)
+    text = normalize_text(
+        record.text,
+    )
 
-    keyword_score = 0.0
+    score = 0.0
 
-    for term in expanded_terms:
+    for term in query_terms:
         if term in heading:
-            keyword_score += 0.07
+            score += 0.07
 
         if term in text:
-            keyword_score += 0.03
+            score += 0.03
 
     max_keyword_score = 0.25
 
-    return min(
-        keyword_score,
-        max_keyword_score,
-    )
+    return min(score, max_keyword_score)
 
 
 def search_by_vector(
-    query_embedding: list[float],
-    records: list[RetrievalRecord],
-    top_k: int = 5,
+        query_embedding: list[float],
+        records: list[RetrievalRecord],
+        top_k: int = 5,
 ) -> list[SearchResult]:
     """Searches the most similar records for a query embedding."""
 
@@ -225,10 +253,10 @@ def search_by_vector(
 
 
 def search_by_vector_hybrid(
-    question: str,
-    query_embedding: list[float],
-    records: list[RetrievalRecord],
-    top_k: int = 5,
+        question: str,
+        query_embedding: list[float],
+        records: list[RetrievalRecord],
+        top_k: int = 5,
 ) -> list[HybridSearchResult]:
     """Searches records using semantic score plus keyword boost."""
 
