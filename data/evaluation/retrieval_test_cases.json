@@ -1,0 +1,87 @@
+[
+  {
+    "question": "Que faire en cas de détresse ?",
+    "expected_chunk_ids": [
+      "amv_021_025_chunk_0023",
+      "amv_021_025_chunk_0024",
+      "amv_021_025_chunk_0025"
+    ],
+    "topic": "détresse / secours",
+    "notes": "Main chunks about ACDV 130 DÉTRESSE, DSEC, secours et dégagement."
+  },
+  {
+    "question": "Que faire avant de traverser une voie ?",
+    "expected_chunk_ids": [
+      "amv_061_065_chunk_0020"
+    ],
+    "topic": "traversée des voies",
+    "notes": "Chunk about safety actions before crossing a track."
+  },
+  {
+    "question": "Que faire pendant la traversée d'une voie ?",
+    "expected_chunk_ids": [
+      "amv_061_065_chunk_0021"
+    ],
+    "topic": "traversée des voies",
+    "notes": "Chunk about safety actions during track crossing."
+  },
+  {
+    "question": "Que faire en cas d'accident électrique impliquant une personne ?",
+    "expected_chunk_ids": [
+      "amv_061_065_chunk_0033"
+    ],
+    "topic": "accident électrique",
+    "notes": "Chunk with PROTÉGER, SECOURIR, ALERTER."
+  },
+  {
+    "question": "Que faire en cas de réalimentation en secours ?",
+    "expected_chunk_ids": [
+      "amv_041_045_chunk_0014",
+      "amv_041_045_chunk_0023",
+      "amv_041_045_chunk_0024"
+    ],
+    "topic": "réalimentation en secours",
+    "notes": "Chunks about secours / alimentation de secours."
+  }
+  ,
+{
+  "question": "Quels sont les moyens de communication utilisables ?",
+  "expected_chunk_ids": [
+    "amv_001_005_chunk_0005"
+  ],
+  "topic": "communication",
+  "notes": "Chunk about available communication means: voice, express agent, loudspeaker, telephony, mobile phone, radio."
+},
+{
+  "question": "Quelles sont les quatre étapes d'une bonne communication ?",
+  "expected_chunk_ids": [
+    "amv_001_005_chunk_0006"
+  ],
+  "topic": "communication",
+  "notes": "Chunk with the four communication steps: identification, instruction call, information transmission, finalization."
+},
+{
+  "question": "Quels sont les codes radio utilisés en communication ?",
+  "expected_chunk_ids": [
+    "amv_001_005_chunk_0007"
+  ],
+  "topic": "communication radio",
+  "notes": "Chunk about radio codes and formalized communication."
+},
+{
+  "question": "À quoi sert le carnet d'enregistrement des dépêches ?",
+  "expected_chunk_ids": [
+    "amv_001_005_chunk_0008"
+  ],
+  "topic": "CED / dépêches",
+  "notes": "Chunk defining the CED as a manual register for daily events, dispatches, disturbances, communications and handovers."
+},
+{
+  "question": "Qu'est-ce que la reconnaissance à l'aptitude au transport ?",
+  "expected_chunk_ids": [
+    "amv_006_010_chunk_0002"
+  ],
+  "topic": "RAT",
+  "notes": "Chunk defining RAT as a safety operation for freight vehicles and loads before movement."
+}
+]
