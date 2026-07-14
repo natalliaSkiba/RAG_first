@@ -131,5 +131,45 @@
     ],
     "topic": "ordres de manœuvre",
     "notes": "Chunk explaining the maneuver order 'refoulez'."
-  }
+  },
+{
+  "question": "Que signifie l'ordre de manœuvre appuyez ?",
+  "expected_chunk_ids": [
+    "amv_006_010_chunk_0013"
+  ],
+  "topic": "ordres de manœuvre",
+  "notes": "Chunk explaining the maneuver order 'appuyez'."
+},
+{
+  "question": "Que faut-il faire pendant la manœuvre ?",
+  "expected_chunk_ids": [
+    "amv_006_010_chunk_0034"
+  ],
+  "topic": "manœuvre",
+  "notes": "Chunk about actions and checks during a maneuver."
+},
+{
+  "question": "Quels renseignements faut-il fournir avant une manœuvre ?",
+  "expected_chunk_ids": [
+    "amv_006_010_chunk_0033"
+  ],
+  "topic": "manœuvre",
+  "notes": "Chunk about information to provide and preliminary checks before a maneuver."
+},
+{
+  "question": "Quelles assurances le chef de la manœuvre doit-il obtenir ?",
+  "expected_chunk_ids": [
+    "amv_006_010_chunk_0028"
+  ],
+  "topic": "chef de la manœuvre",
+  "notes": "Chunk about assurances to obtain by the chef de la manœuvre."
+},
+{
+  "question": "Quelle est la place du chef de la manœuvre ?",
+  "expected_chunk_ids": [
+    "amv_006_010_chunk_0029"
+  ],
+  "topic": "chef de la manœuvre",
+  "notes": "Chunk about the position/place of the chef de la manœuvre."
+}
 ]
